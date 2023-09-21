@@ -1,0 +1,25 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: black;
+    overflow: hidden; /* Prevent scroll due to particles moving outside the viewport */
+}
+
+h1 {
+    border: 1px solid #e0e0e0;
+    padding: 20px;
+    text-align: center;
+    color: white; /* Change the text color so it's visible on a black background */
+    z-index: 2;
+    position: relative;
+}
+
+.particle {
+    position: absolute;
+    background-color: white;
+    border-radius: 50%;
+    pointer-events: none; /* Ignore mouse events on particles */
+}
