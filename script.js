@@ -27,18 +27,66 @@ function updateHeadlineFont() {
 // Update the font of the headline every second
 setInterval(updateHeadlineFont, 1000);
 
+function getRandomHSV() {
+    const hue = Math.floor(Math.random() * 360); // Hue: 0 to 359 degrees
+    // Saturation: 0 to 50%
+    const saturation = Math.floor(Math.random() * 51);
+    // Value: 50 to 100%
+    const value = Math.floor(Math.random() * 51) + 50;
+    return { hue, saturation, value };
+}
+
+function hsvToRgb(h, s, v) {
+    let r, g, b;
+    s = s / 100;
+    v = v / 100;
+
+    const i = Math.floor(h / 60);
+    const f = h / 60 - i;
+    const p = v * (1 - s);
+    const q = v * (1 - s * f);
+    const t = v * (1 - s * (1 - f));
+
+    switch (i) {
+        case 0:
+            r = v; g = t; b = p; break;
+        case 1:
+            r = q; g = v; b = p; break;
+        case 2:
+            r = p; g = v; b = t; break;
+        case 3:
+            r = p; g = q; b = v; break;
+        case 4:
+            r = t; g = p; b = v; break;
+        case 5:
+            r = v; g = p; b = q; break;
+        default:
+            r = g = b = v; break;
+    }
+
+    return {
+        r: Math.round(r * 255),
+        g: Math.round(g * 255),
+        b: Math.round(b * 255)
+    };
+}
 
 
 // Particles logic
 const NUM_PARTICLES = 100;
-const SPEED_GAIN = 0.005;  
-const GRAVITY_GAIN = 0.005;  // Made it smaller as it'll incrementally add to the particle's speed
-const FADE_SPEED = 0.02;  
+const SPEED_GAIN = 0.004;  
+const GRAVITY_GAIN = 0.003;  
+const FADE_SPEED = 0.005;  
 
-const MAX_SPEED = 5;
-const GRAVITY_SPEED_LIMIT = 2;
+const MAX_SPEED = 4;
+const GRAVITY_SPEED_LIMIT = 1.1;
 const SPEED_LIMIT_GAIN = 0.05;
 const GRAVITY_LIMIT_GAIN = 0.02;
+
+const SIZE_GAIN = 0.01;  // How fast the size of the particle changes
+const MAX_SIZE = 15;  // Max size of a particle
+const MIN_SIZE = 2;  // Min size of a particle
+
 
 class Particle {
     constructor() {
@@ -47,9 +95,16 @@ class Particle {
         this.size = Math.random() * 5 + 1;
         this.speedX = Math.random() * 3 - 1.5;
         this.speedY = Math.random() * 3 - 1.5;
-        this.opacity = 1;
+        this.opacity = Math.random();
         this.fadeDirection = Math.random() < 0.5 ? -1 : 1; 
         this.element = null;
+        this.size = (Math.random() * (MAX_SIZE - MIN_SIZE)) + MIN_SIZE; // Random initial size
+        this.sizeChangeRate = (Math.random() < 0.5 ? 1 : -1) * SIZE_GAIN; // Random initial direction for size change
+        
+        const hsv = getRandomHSV();
+        const rgb = hsvToRgb(hsv.hue, hsv.saturation, hsv.value);
+        this.color = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+
     }
 
     create() {
@@ -60,6 +115,7 @@ class Particle {
         this.element.style.left = `${this.x}px`;
         this.element.style.top = `${this.y}px`;
         this.element.style.opacity = this.opacity;
+        this.element.style.backgroundColor = this.color;
         document.body.appendChild(this.element);
     }
 
@@ -96,6 +152,17 @@ class Particle {
         }
         this.opacity += this.fadeDirection * FADE_SPEED;
         this.element.style.opacity = this.opacity;
+
+        // Adjust the size
+        this.size += this.sizeChangeRate;
+
+        // Reverse the size change direction if limits are hit
+        if (this.size >= MAX_SIZE || this.size <= MIN_SIZE) {
+            this.sizeChangeRate = -this.sizeChangeRate;
+        }
+
+        this.element.style.width = `${this.size}px`;
+        this.element.style.height = `${this.size}px`;
     }
 
     destroy() {
