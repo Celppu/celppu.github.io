@@ -190,15 +190,26 @@ for (let i = 0; i < NUM_PARTICLES; i++) {
     particle.create();
 }
 
+// Move particles with mouse
 function moveParticles(e) {
+    // If user is not looking do not animate
+    if(document.hidden) return;
+
     particles.forEach(particle => {
         particle.speedX += e.movementX * SPEED_GAIN;
         particle.speedY += e.movementY * SPEED_GAIN;
     });
 }
 
+// Animate particles
 function animate() {
-    particles.forEach(particle => particle.move());
+    // Only move particles if the tab is not hidden
+    if (!document.hidden) {
+        //console.log("not hidden");
+        particles.forEach(particle => particle.move());
+    } else {
+        //console.log("hidden");
+    }
     requestAnimationFrame(animate);
 }
 
