@@ -1,4 +1,4 @@
-body {
+/*body {
     font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
@@ -6,14 +6,24 @@ body {
     height: 100vh;
     background-color: black;
     overflow: hidden; /* Prevent scroll due to particles moving outside the viewport */
+/*}*/
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    /* font color to white*/
+    color: white;
+    background-color: black;
+    overflow-x: hidden; /* Prevent any unexpected horizontal scrolling */
 }
+
 
 h1 {
     border: 1px solid #e0e0e0;
     padding: 20px;
     text-align: center;
     color: white; /* Change the text color so it's visible on a black background */
-    z-index: 2;
+    z-index: 1;
     position: relative;
 }
 
@@ -22,4 +32,154 @@ h1 {
     background-color: white;
     border-radius: 50%;
     pointer-events: none; /* Ignore mouse events on particles */
+    z-index: 0;
 }
+
+.particles-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden; 
+    pointer-events: none; 
+    z-index: -1;
+}
+
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.headline-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* this will make the box the size of the viewport */
+    width: 100%;
+    border-bottom: 1px solid black; /* just to visually separate the headline box from the content below */
+}
+
+.content {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr; /* This gives twice the space for the main content compared to sidebars */
+    gap: 20px;  /* spacing between columns */
+    width: 90%;  /* adjust width as necessary */
+    margin-top: 20px;  /* spacing from the headline box */
+}
+
+.content-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr; 
+    width: 90%;
+    /*justify-content: space-between; /* You can adjust this as needed */
+}
+
+.left-sidebar,
+.right-sidebar,
+.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;  /* Ensures that children stretch to fill the width */
+    padding: 20px;
+}
+
+.left-sidebar,
+.right-sidebar {
+    flex: 4;
+}
+
+.main-content {
+    flex: 9;
+}
+
+.fade-in {
+    opacity: 1;
+    transition: opacity 3s ease-out;
+}
+.content-block{
+    margin-bottom: 20px;  /* Add space between blocks. Adjust as needed. */
+    padding: 20px;
+    border: 1px solid white;
+}
+
+/* Content block like image and text combination */
+.content-wrapper {
+    display: flex; /* Using flexbox for layout */
+    border: 1px solid white; /* White outline */
+    /*margin: 20px;*/
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.041); /* Just to make the white border more visible */
+}
+
+.image-block {
+    flex: 2; /* Ratio 3:2 for image to text width */
+    margin-right: 10px; /* Spacing between image and text */
+    /*/
+    overflow: hidden; /* In case the image is bigger than the container */
+}
+
+.image-block img {
+    max-width: 100%; /* Ensuring the image doesn't overflow its container */
+    z-index: 1;
+    display: block;
+}
+
+.text-block {
+    flex: 3; /* Ratio 3:2 for image to text width */
+    border-left: 2px solid white; /* White separator between image and text */
+    padding-left: 10px; /* Spacing for the text inside the block */
+}
+
+/* Sidebar block like image and text combination */
+.sidebar-wrapper {
+    display: flex; /* Using flexbox for layout */
+    border: 1px solid white; /* White outline */
+    /*margin: 20px;*/
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.041); /* Just to make the white border more visible */
+}
+
+/*image and text are on top of each other and centered with margins
+  Text is centered with margins and right aligned
+*/
+.sidebar-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Horizontally centering in column flex direction */
+    justify-content: center; /* Vertically centering in column flex direction */
+    text-align: center; /* Text inside the block should be centered */
+
+    border: 1px solid white; /* Outline box */
+    margin-bottom: 20px;
+    padding: 10px; /* Adding some padding to give space inside the box */
+}
+
+.sidebar-block img {
+    max-width: 100%; /* Ensuring the image doesn't overflow its container */
+    display: flex; 
+
+    margin: 10px auto; /* Additional centering for block elements */
+
+    /*make image round*/
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid white;
+}
+
+.sidebar-block p {
+    margin: 5px 0 0 0; /* Add some top margin to separate from the image */
+    padding: 10px;
+    text-align: left; 
+}
+
+.sidebar-block h3 {
+    margin: 10px 0 0 0; /* Remove the default top margin for the heading */
+    padding: 10px;
+}
+
+/* Path: scripts.js */
