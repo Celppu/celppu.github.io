@@ -256,6 +256,7 @@ window.addEventListener('resize', updateParticlesForResize);
 
 animate();  // Start the animation loop
 
+/*
 $(document).ready(function() {
     $(window).scroll(function() {
         $('.fade-in').each(function() {
@@ -263,7 +264,7 @@ $(document).ready(function() {
             let windowBottom = $(window).scrollTop() + $(window).height();
             
             // Adjust these numbers if you want the fade to happen earlier or later
-            let fadeInStart = objectTop + 100; // When to start fading in
+            let fadeInStart = objectTop + 200; // When to start fading in
             let fadeOutEnd = objectTop - 100;  // When the fade out is complete
 
             if (windowBottom > fadeInStart) {
@@ -271,6 +272,30 @@ $(document).ready(function() {
             } else if ($(window).scrollTop() < fadeOutEnd) {
                 $(this).css('opacity', 0); // Fade out
             }
+        });
+    });
+});*/
+/* Same fade in/out effect, but scale the opacity by how much of the element is visible*/
+
+$(document).ready(function() {
+    $(window).scroll(function() {
+        $('.fade-in').each(function() {
+            let objectTop = $(this).offset().top;
+            let objectBottom = objectTop + $(this).outerHeight();
+            let windowTop = $(window).scrollTop();
+            let windowBottom = windowTop + $(window).height();
+
+            // Check how much of the object is currently visible
+            let objectVisibleTop = Math.max(objectTop, windowTop);
+            let objectVisibleBottom = Math.min(objectBottom, windowBottom);
+
+            let visibleHeight = Math.max(0, objectVisibleBottom - objectVisibleTop);
+            let totalHeight = $(this).outerHeight();
+
+            // Scale opacity based on visible percentage
+            let opacity = visibleHeight / totalHeight;
+
+            $(this).css('opacity', opacity);
         });
     });
 });

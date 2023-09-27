@@ -97,7 +97,7 @@ h1 {
 
 .fade-in {
     opacity: 1;
-    transition: opacity 3s ease-out;
+    transition: opacity 500ms ease-out;
 }
 .content-block{
     margin-bottom: 20px;  /* Add space between blocks. Adjust as needed. */
